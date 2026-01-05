@@ -1,0 +1,23 @@
+.profile-page{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:70vh;
+  padding:32px 12px;
+}
+.profile-card{
+  width:100%;
+  max-width:640px;
+  background:linear-gradient(180deg,#ffffff,#fbfdff);
+  border-radius:12px;
+  padding:24px 28px;
+  box-shadow:0 12px 30px rgba(2,6,23,0.06);
+}
+.profile-card h2{margin:0 0 6px 0;color:#0f172a}
+.profile-card .subtitle{margin:0 0 14px 0;color:#64748b}
+.field{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #eef2f6}
+.field strong{width:120px;color:#0b1220}
+.muted{color:#94a3b8}
+.error-msg{color:#b91c1c}
+
+@media (max-width:600px){.profile-card{padding:16px}}

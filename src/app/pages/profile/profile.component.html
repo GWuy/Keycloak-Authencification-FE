@@ -1,0 +1,18 @@
+<div class="profile-page">
+  <div class="profile-card">
+    <h2>Thông tin tài khoản</h2>
+    <p class="subtitle">Thông tin cá nhân của bạn</p>
+
+    <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+    <div *ngIf="profile">
+      <div class="field"><strong>Username:</strong> <span>{{ profile.username }}</span></div>
+      <div class="field"><strong>Email:</strong> <span>{{ profile.email }}</span></div>
+      <div class="field"><strong>Firstname:</strong> <span>{{ profile.firstname }}</span></div>
+      <div class="field"><strong>Lastname:</strong> <span>{{ profile.lastname }}</span></div>
+      <div class="field"><strong>Password:</strong> <span class="muted">{{ profile.password }}</span></div>
+    </div>
+
+    <div *ngIf="!profile && !error" class="muted">Đang tải...</div>
+  </div>
+</div>

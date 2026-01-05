@@ -1,0 +1,19 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ProfileResponse } from '../models/profile-response.model';
+
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private API_URL = 'http://localhost:8082/assign1/api/users';
+
+  constructor(private http: HttpClient) {}
+
+  getProfile(): Observable<ProfileResponse> {
+    const token = localStorage.getItem('accessToken');
+    const headers = token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : new HttpHeaders();
+    return this.http.get<ProfileResponse>(this.API_URL, { headers });
+  }
+}

@@ -8,17 +8,20 @@ import { AuthResponse } from '../models/auth-response.model';
 })
 export class AuthService {
 
-  private API_URL = 'http://localhost:8082/assign1/api/auth/login';
+  private API_URL = 'http://localhost:8082/assign1/api/auth';
 
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.http.post<AuthResponse>(this.API_URL, {
+    return this.http.post<AuthResponse>(`${this.API_URL}/login`, {
       username,
       password
     });
   }
 
+  register(registerData: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/register`, registerData);
+  }
 
   saveToken(res: AuthResponse) {
     localStorage.setItem('accessToken', res.accessToken);
