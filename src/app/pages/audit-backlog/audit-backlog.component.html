@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2>Audit Backlog</h2>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="fromDate" class="form-label">From Date</label>
+      <input type="date" id="fromDate" class="form-control" [(ngModel)]="filter.fromDate">
+    </div>
+    <div class="col-md-4">
+      <label for="toDate" class="form-label">To Date</label>
+      <input type="date" id="toDate" class="form-control" [(ngModel)]="filter.toDate">
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button class="btn btn-primary" (click)="onFilter()">Filter</button>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Action</th>
+        <th>IP Address</th>
+        <th>Status</th>
+        <th>Action At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let audit of audits">
+        <td>{{ audit.username }}</td>
+        <td>{{ audit.action }}</td>
+        <td>{{ audit.ipAddress }}</td>
+        <td>
+          <span [class.text-success]="audit.status === 'SUCCESS'" [class.text-danger]="audit.status !== 'SUCCESS'">
+            {{ audit.status }}
+          </span>
+        </td>
+        <td>{{ audit.actionAt | date:'medium' }}</td>
+      </tr>
+      <tr *ngIf="audits.length === 0 && !error">
+        <td colspan="5" class="text-center">No audit records found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

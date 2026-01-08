@@ -13,10 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.http.post<AuthResponse>(`${this.API_URL}/login`, {
-      username,
-      password
-    });
+    return this.http.post<AuthResponse>(`${this.API_URL}/login`, { username, password });
   }
 
   register(registerData: any): Observable<any> {
@@ -27,5 +24,25 @@ export class AuthService {
     localStorage.setItem('accessToken', res.accessToken);
     localStorage.setItem('refreshToken', res.refreshToken);
     localStorage.setItem('expiresIn', res.expiresIn);
+    localStorage.setItem('roles', res.roles);
+  }
+
+  refreshToken() {
+    const refreshToken = localStorage.getItem('refreshToken');
+    return this.http.post<AuthResponse>(`${this.API_URL}/refresh`, {}, {
+      headers: {
+        'Authorization': `Bearer ${refreshToken}`
+      }
+    });
+  }
+
+  logout() {
+    const accessToken = localStorage.getItem('accessToken');
+
+    return this.http.post(`${this.API_URL}/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
   }
 }

@@ -3,17 +3,23 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div>
     <input type="text" placeholder="Username" formControlName="username">
+    <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" style="color:red">
+      Username is required
+    </div>
   </div>
 
-  <div>
+  <div style="margin-top: 10px;">
     <input type="password" placeholder="Password" formControlName="password">
+    <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" style="color:red">
+      Password is required
+    </div>
   </div>
 
-  <button type="submit">Login</button>
+  <button type="submit" style="margin-top: 10px;">Login</button>
 
-  <p style="color:red" *ngIf="error">{{ error }}</p>
+  <p *ngIf="error" style="color:red; margin-top: 10px;">{{ error }}</p>
 </form>
 
-    <div style="margin-top: 10px;">
-      <p>Don't have an account? <a routerLink="/register">Create new account</a></p>
-    </div>
+<div style="margin-top: 15px;">
+  <p>Don't have an account? <a routerLink="/register">Create new account</a></p>
+</div>

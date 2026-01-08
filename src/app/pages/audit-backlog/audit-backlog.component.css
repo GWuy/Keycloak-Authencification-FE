@@ -1,0 +1,11 @@
+.container {
+  max-width: 1000px;
+}
+
+.table th {
+  background-color: #f8f9fa;
+}
+
+.form-label {
+  font-weight: bold;
+}

@@ -1,0 +1,47 @@
+<div class="dashboard-container">
+  <div class="header">
+    <h1>User Management</h1>
+    <p>Manage all users in one place. Control access, assign roles, and monitor activity across your platform.</p>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">Đang tải...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <table *ngIf="!loading && !error">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.username }}</td>
+          <td>
+            <span [ngClass]="user.isStatus ? 'status-online' : 'status-offline'">
+              {{ user.isStatus ? 'Online' : 'Offline' }}
+            </span>
+          </td>
+          <td>{{ user.role }}</td>
+          <td class="actions">
+            <button class="btn-logout" (click)="logoutUser(user.id)" title="Logout">
+              <i class="icon-logout"></i> Logout
+            </button>
+            <button class="btn-lock" (click)="lockUser(user.id)" title="Lock">
+              <i class="icon-lock"></i> Lock
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

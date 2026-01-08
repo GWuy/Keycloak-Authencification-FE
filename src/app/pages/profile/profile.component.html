@@ -10,9 +10,14 @@
       <div class="field"><strong>Email:</strong> <span>{{ profile.email }}</span></div>
       <div class="field"><strong>Firstname:</strong> <span>{{ profile.firstname }}</span></div>
       <div class="field"><strong>Lastname:</strong> <span>{{ profile.lastname }}</span></div>
-      <div class="field"><strong>Password:</strong> <span class="muted">{{ profile.password }}</span></div>
     </div>
 
     <div *ngIf="!profile && !error" class="muted">Đang tải...</div>
+
+    <div class="actions">
+      <button *ngIf="isAdmin" class="btn-admin" [routerLink]="['/admin-dashboard']">Admin Dashboard</button>
+      <button *ngIf="isAdmin" class="btn-audit" [routerLink]="['/audit-backlog']">Xem Audit Backlog</button>
+      <button class="btn-logout" (click)="logout()">Đăng xuất</button>
+    </div>
   </div>
 </div>

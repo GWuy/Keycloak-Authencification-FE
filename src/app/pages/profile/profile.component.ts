@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { ProfileResponse } from '../../models/profile-response.model';
 
 @Component({
@@ -15,7 +16,13 @@ import { ProfileResponse } from '../../models/profile-response.model';
 export class ProfileComponent implements OnInit {
   profile: ProfileResponse | null = null;
   error = '';
-  constructor(private userService: UserService, private router: Router) {}
+  isAdmin = false;
+
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const token = localStorage.getItem('accessToken');
@@ -24,22 +31,26 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    // try to decode JWT payload to check role includes USER
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const roles = payload?.roles || payload?.authorities || payload?.role || [];
-      const hasUser = Array.isArray(roles) ? roles.includes('USER') : String(roles).includes('USER');
-      if (!hasUser) {
-        this.router.navigate(['/login']);
-        return;
-      }
-    } catch (e) {
-      // ignore decode errors and attempt to fetch profile; backend will reject if unauthorized
-    }
+    const roles = localStorage.getItem('roles');
+    this.isAdmin = roles === 'ADMIN';
 
     this.userService.getProfile().subscribe({
       next: (res) => (this.profile = res),
       error: (err) => (this.error = err.error?.message || 'Không thể tải thông tin người dùng')
+    });
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+        // Even if the backend logout fails, we should probably clear local state and redirect
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
     });
   }
 }
